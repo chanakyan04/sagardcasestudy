@@ -14,30 +14,34 @@ dependency; I've noted it as a natural "walk" phase upgrade below.
 
 ## What I implemented
 
-`src/extract.py`:
+The pipeline is split into five small modules under `src/`, each with one
+job, rather than one script doing everything — easier to read, test, and
+extend in isolation:
 
-1. Reads each PDF's text with `pdfplumber`.
-2. Pulls company + period from the **filename** (`<Company>_Q<n>_<year>.pdf`),
-   which turned out to be more reliable than parsing it from the document
-   body — one report (`MediSight_Q1_2025.pdf`) states its period as "Quarter
-   ended March 31, 2025" instead of "Q1 2025", so text-based period parsing
-   would need its own date→quarter logic for no real benefit here.
-3. For each of 8 canonical metrics, tries an ordered list of label phrasings
-   against every line of the document (e.g. `net_revenue_retention` matches
-   "Net Revenue Retention (LTM)", "NRR (LTM)", "Net Dollar Retention", "Net
-   Pound Retention", ...). First match wins, aliases are ordered
-   most-specific-first (e.g. "Total Recognized Revenue" is checked before
-   "Recognized Revenue" so a subtotal line like "Recognized Revenue
-   (transaction)" doesn't win over the real total).
-4. Parses the matched value (`$12.7M`, `(0.55M)`, `148bps`, `96.1%`, `2.4x`)
-   into a numeric value + unit, handling `$`, commas, and parenthesized
-   negatives.
-5. Falls back to a couple of narrative-text regexes for headcount, since two
-   reports disclose it only in prose ("...ended the period with 114
-   employees...") rather than in a table.
-6. Writes a long-format CSV (one row per metric, with the raw label/value it
-   came from, for auditability) and a wide-format CSV (one row per
-   company-quarter, metrics as columns) for at-a-glance review.
+- **`config.py`** — the metric definitions: 8 canonical metrics, each with an
+  ordered list of label phrasings (most-specific first, e.g. "Total
+  Recognized Revenue" is checked before "Recognized Revenue" so a subtotal
+  line like "Recognized Revenue (transaction)" doesn't win over the real
+  total), plus the filename pattern and the one company-rename mapping.
+- **`values.py`** — turns a raw text token (`$12.7M`, `(0.55M)`, `148bps`,
+  `96.1%`, `2.4x`) into a numeric value + unit, handling `$`, commas, and
+  parenthesized negatives; and scans a line for the first such token after a
+  matched label.
+- **`pdf_parser.py`** — reads a PDF with `pdfplumber`, pulls company + period
+  from the **filename** (`<Company>_Q<n>_<year>.pdf`), which turned out to be
+  more reliable than parsing it from the document body — one report
+  (`MediSight_Q1_2025.pdf`) states its period as "Quarter ended March 31,
+  2025" instead of "Q1 2025" — and applies the label-matching from
+  `config.py`/`values.py` to build one record per report. Falls back to a
+  couple of narrative-text regexes for headcount, since two reports disclose
+  it only in prose ("...ended the period with 114 employees...") rather than
+  in a table.
+- **`csv_writer.py`** — writes a long-format CSV (one row per metric, with
+  the raw label/value it came from, for auditability) and a wide-format CSV
+  (one row per company-quarter, metrics as columns), plus a console preview
+  table.
+- **`extract.py`** — the CLI entry point; loops over the input folder, calls
+  the above, and prints a coverage summary.
 
 ## Key assumptions
 
@@ -116,3 +120,10 @@ businesses; no `arr`/`logo_churn` for non-subscription businesses).
   presumably also a real report type Sagard receives.
 - **FX normalization** to a reporting currency, once real FX rates are
   available for the relevant periods.
+
+## Presenting this
+
+[`presentation.html`](presentation.html) is a short slide deck covering the
+same ground as this document, plus one thing this document doesn't: a
+proposed (not built) architecture for running this daily and landing results
+in Snowflake, in case that's a useful starting point for discussion.

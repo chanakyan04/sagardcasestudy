@@ -4,7 +4,9 @@ Takes a folder of portfolio-company PDF reporting packages and extracts a small,
 consistent set of metrics into a table that's easy to scan across companies and
 quarters.
 
-See [`NOTES.md`](NOTES.md) for the approach, assumptions, and next steps.
+See [`NOTES.md`](NOTES.md) for the approach, assumptions, and next steps, and
+[`presentation.html`](presentation.html) for a slide-deck walkthrough (open it
+in a browser, arrow keys to navigate).
 
 ## Setup
 
@@ -29,6 +31,17 @@ writes two files to `output/`:
 
 Optional flags: `--input <folder>` / `--output-dir <folder>` to point at a
 different set of PDFs.
+
+## Project layout
+
+```
+src/
+  extract.py      # CLI entry point -- orchestrates the pipeline
+  config.py       # metric definitions, label aliases, filename pattern
+  values.py       # raw text token -> (number, unit)
+  pdf_parser.py   # reads a PDF, matches labels, returns a structured record
+  csv_writer.py   # writes the long/wide CSVs and the console preview
+```
 
 ## What's extracted
 
