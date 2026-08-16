@@ -1,4 +1,6 @@
 <!doctype html>
+<meta charset="utf-8" />
+<script>document.documentElement.setAttribute("data-theme", "light");</script>
 <title>Portfolio Metrics Extraction</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
@@ -89,7 +91,10 @@
   html, body {
     margin: 0;
     height: 100%;
-    background: var(--paper);
+    background:
+      radial-gradient(1100px circle at 88% -8%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 58%),
+      radial-gradient(900px circle at -8% 108%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 55%),
+      radial-gradient(1400px circle at 50% 50%, var(--paper-raised), var(--paper) 65%);
     color: var(--ink);
   }
   body {
@@ -246,6 +251,9 @@
   .accent-fill { fill: var(--accent-tint); stroke: var(--accent); }
   .accent-text { fill: var(--accent-ink); }
   .accent-stroke { stroke: var(--accent); }
+  .chart-bar { fill: var(--accent); }
+  figure.chart svg text { fill: var(--ink); }
+  figure.chart svg text.axis-label { fill: var(--ink-soft); }
 
   /* ---------- nav chrome ---------- */
   .nav {
@@ -303,6 +311,16 @@
     box-shadow: var(--shadow);
   }
   .logo-plate svg { display: block; height: 26px; width: auto; }
+  .title-watermark {
+    position: absolute;
+    right: -6%;
+    bottom: -10%;
+    width: 46vh;
+    height: 46vh;
+    color: var(--accent);
+    opacity: 0.1;
+    pointer-events: none;
+  }
   .nav-mark {
     display: inline-flex;
     align-items: center;
@@ -321,6 +339,11 @@
 
   <!-- 1: Title -->
   <section class="slide title-slide">
+    <svg class="title-watermark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <path d="M9.50586 21.0908C8.08386 19.0648 7.39919 16.6752 7.55719 14.1817C7.71519 11.844 8.45252 9.61025 9.71652 7.68817C11.4545 5.19466 13.5085 2.9609 15.8785 1.03882C10.5065 1.61025 6.71452 3.32453 4.50252 6.70116C0.0785241 13.5064 -0.764143 25.1427 2.39586 29.7661C6.18786 35.1687 10.8225 37.2986 15.1939 38.0778C15.8259 36.7271 16.1419 35.2206 15.9839 33.7141C15.7205 30.2856 13.2452 26.4934 9.50586 21.0908Z" fill="currentColor"></path>
+      <path d="M24.4098 10.753C24.3044 14.4933 25.7264 17.5582 27.8858 19.4283C32.1518 23.0127 35.4171 26.0257 37.2604 29.0387C37.8924 30.0777 38.4191 31.1686 38.8404 32.3114C39.4198 30.9608 39.8411 29.5582 39.9464 28.1036C40.8944 19.8958 38.8404 16.2595 37.1024 11.3764C35.5224 6.90884 32.8891 2.90884 27.2538 1.40234C25.4631 4.20754 24.5151 7.42832 24.4098 10.753Z" fill="currentColor"></path>
+      <path d="M33.8902 31.1168C32.3102 28.5194 29.6769 25.8181 25.6215 22.2337C22.3035 19.3246 20.5655 15.5324 20.7235 10.6492C20.8815 7.22066 21.8822 3.89599 23.7255 0.934951C23.4095 0.934951 23.1462 0.883003 22.8302 0.883003C22.2509 0.883003 21.6715 0.831055 21.1449 0.831055C16.5102 4.51937 14.1929 7.63625 13.0342 9.55833C10.9275 13.1947 10.8222 16.2596 12.6655 18.909C16.7735 24.7791 19.6702 28.9349 20.0915 33.2986C20.2495 35.0648 20.0389 36.8311 19.4069 38.4934C20.8289 38.5453 22.1982 38.5453 23.4095 38.5453C28.2022 38.5453 32.7315 38.1298 35.8389 35.896C35.4702 34.1817 34.7855 32.5713 33.8902 31.1168Z" fill="currentColor"></path>
+    </svg>
     <div class="slide-inner">
       <div class="logo-plate"><svg xmlns="http://www.w3.org/2000/svg" width="159" height="40" viewBox="0 0 159 40" fill="none">
   <path d="M60.1713 29.2986C61.804 29.2986 63.0153 29.0389 63.7527 28.4675C64.49 27.948 64.9113 27.0649 64.8587 26.1817C64.8587 25.6623 64.7533 25.1428 64.49 24.6752C64.2267 24.2077 63.858 23.8441 63.4367 23.5324C62.91 23.1688 62.3307 22.8571 61.6987 22.5973C60.9613 22.2856 60.1713 21.9739 59.3813 21.7142C58.5387 21.4025 57.696 21.0908 56.8533 20.7272C56.0633 20.3636 55.3787 19.948 54.7467 19.3765C54.1147 18.8571 53.6407 18.1817 53.272 17.4545C52.9033 16.6233 52.6927 15.6882 52.7453 14.7532C52.64 12.7791 53.5353 10.8571 55.0627 9.55836C56.6427 8.31161 58.7493 7.68823 61.4353 7.68823C62.8573 7.68823 64.2267 7.84408 65.596 8.20771C66.5967 8.46745 67.5447 8.83109 68.44 9.29862L67.018 12.883C66.1753 12.4155 65.28 12.0519 64.332 11.8441C63.3313 11.6363 62.3307 11.4804 61.33 11.4804C60.3293 11.4285 59.3287 11.6882 58.486 12.2077C57.8013 12.6752 57.4327 13.4545 57.4327 14.2856C57.4327 14.7532 57.538 15.2726 57.8013 15.6882C58.0647 16.1038 58.3807 16.4675 58.7493 16.7272C59.2233 17.0389 59.6973 17.3506 60.224 17.5584C60.8033 17.8181 61.4353 18.0778 62.0673 18.2856C63.226 18.7012 64.2793 19.1168 65.2273 19.5843C66.07 19.9999 66.86 20.5194 67.5447 21.1428C68.1767 21.7142 68.6507 22.4415 69.0193 23.2207C69.388 24.1558 69.546 25.1428 69.4933 26.1298C69.5987 28.1038 68.7033 30.0259 67.1233 31.2207C65.5433 32.4155 63.1733 33.0389 60.1187 33.0389C59.1707 33.0389 58.2227 32.9869 57.2747 32.8311C56.4847 32.7272 55.7473 32.5714 55.01 32.3636C54.4307 32.2077 53.8513 31.9999 53.3247 31.7921C52.956 31.6363 52.5347 31.4804 52.166 31.2726L53.4827 27.6363C54.3253 28.0519 55.2207 28.4155 56.116 28.6752C57.4853 29.1428 58.8547 29.3506 60.1713 29.2986Z" fill="black"></path>
@@ -484,6 +507,56 @@
     </div>
   </section>
 
+  <!-- 6b: Dashboard -->
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="eyebrow"><span class="rule"></span>What we built &mdash; what it enables</span>
+      <h2>The same CSV, one chart away from a dashboard.</h2>
+      <p class="body-text">Everything below is read straight out of <span class="mono">output/metrics_wide.csv</span> &mdash; no separate mock data.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="n mono">$68.6M</div><div class="l">Q2 2025 revenue, 8 USD-reporting cos.</div></div>
+        <div class="stat"><div class="n mono">1,232</div><div class="l">portfolio headcount, all 9 companies</div></div>
+        <div class="stat"><div class="n mono">72%</div><div class="l">median gross margin (8 disclosing)</div></div>
+        <div class="stat"><div class="n mono">119%</div><div class="l">median NRR (5 disclosing)</div></div>
+      </div>
+      <figure class="diagram chart">
+        <div class="diagram-frame">
+          <svg viewBox="0 0 900 266" role="img" aria-label="Bar chart of Q2 2025 revenue by company: ClearPay $17.3M, LendBridge $12.7M, ApexFreight $9.3M, NovaCloud $8.4M, MediSight $6.8M, TalentVault $5.5M, PeopleFlow &#163;5.1M, ConstructIQ $4.5M, CarbonTrack $4.1M.">
+            <text x="140" y="22.0" text-anchor="end" font-size="11.5">ClearPay</text>
+            <path class="chart-bar" d="M150,8 L684.2,8 Q688.2,8 688.2,12 L688.2,24 Q688.2,28 684.2,28 L150,28 Z" />
+            <text x="696.2" y="22.0" font-size="11.5" class="mono axis-label">$17.3M</text>
+            <text x="140" y="50.0" text-anchor="end" font-size="11.5">LendBridge</text>
+            <path class="chart-bar" d="M150,36 L541.1,36 Q545.1,36 545.1,40 L545.1,52 Q545.1,56 541.1,56 L150,56 Z" />
+            <text x="553.1" y="50.0" font-size="11.5" class="mono axis-label">$12.7M</text>
+            <text x="140" y="78.0" text-anchor="end" font-size="11.5">ApexFreight</text>
+            <path class="chart-bar" d="M150,64 L435.3,64 Q439.3,64 439.3,68 L439.3,80 Q439.3,84 435.3,84 L150,84 Z" />
+            <text x="447.3" y="78.0" font-size="11.5" class="mono axis-label">$9.3M</text>
+            <text x="140" y="106.0" text-anchor="end" font-size="11.5">NovaCloud</text>
+            <path class="chart-bar" d="M150,92 L407.3,92 Q411.3,92 411.3,96 L411.3,108 Q411.3,112 407.3,112 L150,112 Z" />
+            <text x="419.3" y="106.0" font-size="11.5" class="mono axis-label">$8.4M</text>
+            <text x="140" y="134.0" text-anchor="end" font-size="11.5">MediSight</text>
+            <path class="chart-bar" d="M150,120 L357.6,120 Q361.6,120 361.6,124 L361.6,136 Q361.6,140 357.6,140 L150,140 Z" />
+            <text x="369.6" y="134.0" font-size="11.5" class="mono axis-label">$6.8M</text>
+            <text x="140" y="162.0" text-anchor="end" font-size="11.5">TalentVault</text>
+            <path class="chart-bar" d="M150,148 L317.1,148 Q321.1,148 321.1,152 L321.1,164 Q321.1,168 317.1,168 L150,168 Z" />
+            <text x="329.1" y="162.0" font-size="11.5" class="mono axis-label">$5.5M</text>
+            <text x="140" y="190.0" text-anchor="end" font-size="11.5">PeopleFlow</text>
+            <path class="chart-bar" d="M150,176 L304.7,176 Q308.7,176 308.7,180 L308.7,192 Q308.7,196 304.7,196 L150,196 Z" />
+            <text x="316.7" y="190.0" font-size="11.5" class="mono axis-label">&#163;5.1M</text>
+            <text x="140" y="218.0" text-anchor="end" font-size="11.5">ConstructIQ</text>
+            <path class="chart-bar" d="M150,204 L286.0,204 Q290.0,204 290.0,208 L290.0,220 Q290.0,224 286.0,224 L150,224 Z" />
+            <text x="298.0" y="218.0" font-size="11.5" class="mono axis-label">$4.5M</text>
+            <text x="140" y="246.0" text-anchor="end" font-size="11.5">CarbonTrack</text>
+            <path class="chart-bar" d="M150,232 L273.6,232 Q277.6,232 277.6,236 L277.6,248 Q277.6,252 273.6,252 L150,252 Z" />
+            <text x="285.6" y="246.0" font-size="11.5" class="mono axis-label">$4.1M</text>
+
+          </svg>
+        </div>
+        <figcaption>Revenue by company, Q2 2025. Figures in USD; PeopleFlow reports in GBP (not FX-converted).</figcaption>
+      </figure>
+    </div>
+  </section>
+
   <!-- 7: Assumptions -->
   <section class="slide">
     <div class="slide-inner">
@@ -619,7 +692,7 @@
     <button class="nav-btn" id="prevBtn" aria-label="Previous slide">&#8592; Prev</button>
   </div>
   <div style="display:flex; align-items:center; gap:14px;">
-    <span class="counter" id="counter" aria-live="polite">1 / 10</span>
+    <span class="counter" id="counter" aria-live="polite">1 / 11</span>
     <div class="dots" id="dots"></div>
   </div>
   <button class="nav-btn" id="nextBtn" aria-label="Next slide">Next &#8594;</button>
