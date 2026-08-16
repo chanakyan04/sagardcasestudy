@@ -12,33 +12,42 @@ from config import FILENAME_RE, COMPANY_KEY_ALIASES, METRIC_ALIASES, HEADCOUNT_N
 from values import parse_value, extract_value_after_label
 
 
+def nonblank_lines(text):
+    """Split `text` into stripped, non-empty lines."""
+    return [l.strip() for l in text.splitlines() if l.strip()]
+
+
+def _metric_entry(raw_label, raw_value):
+    """Build one extracted-metric record, keeping the raw source text for auditability."""
+    value, unit = parse_value(raw_value)
+    return {
+        "raw_label": raw_label,   # The exact source line the value came from.
+        "raw_value": raw_value,   # The exact source token, before parsing.
+        "value": value,
+        "unit": unit,
+    }
+
+
+def _find_labelled_value(lines, aliases):
+    """Return the first (line, token) hit for these aliases, trying the most specific first."""
+    for alias in aliases:
+        for line in lines:
+            token = extract_value_after_label(line, alias)
+            if token:
+                return line, token
+    return None, None
+
+
 def extract_metrics_from_text(text):
     """Scan `text` for each canonical metric in METRIC_ALIASES, returning whatever it finds."""
-    lines = [l.strip() for l in text.splitlines() if l.strip()]  # Drop blank lines up front.
+    lines = nonblank_lines(text)
     metrics = {}
 
     for canonical, aliases in METRIC_ALIASES.items():
-        found_token, found_line = None, None
-
-        # Try each known label phrasing, most specific first, against every line,
-        # and stop at the first hit -- we only want one value per metric per document.
-        for alias in aliases:
-            for line in lines:
-                token = extract_value_after_label(line, alias)
-                if token:
-                    found_token, found_line = token, line
-                    break
-            if found_token:
-                break
-
+        # Stop at the first hit -- we only want one value per metric per document.
+        found_line, found_token = _find_labelled_value(lines, aliases)
         if found_token:
-            value, unit = parse_value(found_token)
-            metrics[canonical] = {
-                "raw_label": found_line,   # The exact source line, kept for auditability.
-                "raw_value": found_token,  # The exact source token, before parsing.
-                "value": value,
-                "unit": unit,
-            }
+            metrics[canonical] = _metric_entry(found_line, found_token)
 
     # Headcount is sometimes only mentioned in a sentence, not a table row.
     # Only fall back to narrative text if the table-based pass above found nothing.
@@ -46,14 +55,7 @@ def extract_metrics_from_text(text):
         for pattern in HEADCOUNT_NARRATIVE_PATTERNS:
             m = pattern.search(text)
             if m:
-                raw = m.group(1)
-                value, unit = parse_value(raw)
-                metrics["headcount"] = {
-                    "raw_label": "(from narrative text, not a table row)",
-                    "raw_value": raw,
-                    "value": value,
-                    "unit": unit,
-                }
+                metrics["headcount"] = _metric_entry("(from narrative text, not a table row)", m.group(1))
                 break
 
     return metrics
@@ -84,7 +86,7 @@ def process_pdf(path):
     with pdfplumber.open(path) as pdf:
         text = "\n".join(page.extract_text() or "" for page in pdf.pages)  # Join all pages into one text blob.
 
-    lines = [l.strip() for l in text.splitlines() if l.strip()]
+    lines = nonblank_lines(text)
     display_name = lines[0] if lines else company_key  # First non-blank line is always the company's own header.
 
     return {

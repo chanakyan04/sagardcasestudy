@@ -44,16 +44,17 @@ def main():
 
     long_path = os.path.join(args.output_dir, "metrics_long.csv")
     wide_path = os.path.join(args.output_dir, "metrics_wide.csv")
-    write_long_csv(long_path, records)  # One row per (company, period, metric) — auditable, includes raw source text.
+    write_long_csv(long_path, records, metric_names)  # One row per (company, period, metric) — auditable, includes raw source text.
     write_wide_csv(wide_path, records, metric_names)  # One row per (company, period) — easier to scan across companies.
 
     total_cells = len(records) * len(metric_names)  # Size of the full company-period x metric grid.
     filled_cells = sum(1 for r in records for m in metric_names if m in r["metrics"])  # How many cells we actually got a value for.
+    pct = f"{filled_cells / total_cells:.0%}" if total_cells else "0%"  # No reports parsed -> nothing to divide by.
 
     print(f"Processed {len(records)} reports ({len(skipped)} skipped)")
     for s in skipped:
         print(f"  skipped: {s}")  # Explain each skip so it's visible, not silent.
-    print(f"Metric coverage: {filled_cells}/{total_cells} ({filled_cells / total_cells:.0%}) cells filled\n")
+    print(f"Metric coverage: {filled_cells}/{total_cells} ({pct}) cells filled\n")
     print_preview(records, metric_names)  # Quick on-screen look at the first few rows without opening the CSV.
     print(f"\nWrote {long_path}")
     print(f"Wrote {wide_path}")

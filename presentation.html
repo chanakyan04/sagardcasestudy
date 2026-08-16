@@ -51,6 +51,10 @@
     --accent-tint: #f4e1e0;
     --good: #3f7a5c;
     --good-tint: #e2ede6;
+    --bronze: #8a5e29;
+    --bronze-tint: #f3e6d3;
+    --gold: #856300;
+    --gold-tint: #f7edcf;
     --shadow: 0 20px 50px -25px rgba(17, 38, 62, 0.35);
   }
   @media (prefers-color-scheme: dark) {
@@ -68,6 +72,10 @@
       --accent-tint: #3a2226;
       --good: #6fbf8b;
       --good-tint: #16261f;
+      --bronze: #d99f5b;
+      --bronze-tint: #3a2c18;
+      --gold: #e0b34d;
+      --gold-tint: #3a3016;
       --shadow: 0 20px 50px -25px rgba(0, 0, 0, 0.6);
     }
   }
@@ -83,6 +91,10 @@
     --accent-tint: #3a2226;
     --good: #6fbf8b;
     --good-tint: #16261f;
+    --bronze: #d99f5b;
+    --bronze-tint: #3a2c18;
+    --gold: #e0b34d;
+    --gold-tint: #3a3016;
     --shadow: 0 20px 50px -25px rgba(0, 0, 0, 0.6);
   }
 
@@ -251,6 +263,12 @@
   .accent-fill { fill: var(--accent-tint); stroke: var(--accent); }
   .accent-text { fill: var(--accent-ink); }
   .accent-stroke { stroke: var(--accent); }
+  .bronze-fill { fill: var(--bronze-tint); stroke: var(--bronze); }
+  .bronze-text { fill: var(--bronze); }
+  .silver-fill { fill: var(--paper-raised); stroke: var(--ink-soft); }
+  .silver-text { fill: var(--ink-soft); }
+  .gold-fill { fill: var(--gold-tint); stroke: var(--gold); }
+  .gold-text { fill: var(--gold); }
   .chart-bar { fill: var(--accent); }
   figure.chart svg text { fill: var(--ink); }
   figure.chart svg text.axis-label { fill: var(--ink-soft); }
@@ -448,7 +466,7 @@
             <line x1="790" y1="152" x2="850" y2="105" stroke="currentColor" opacity="0" />
             <path d="M810,152 L830,152 L850,105" fill="none" stroke="currentColor" marker-end="url(#arrow)" />
             <path d="M810,152 L830,152 L850,199" fill="none" stroke="currentColor" marker-end="url(#arrow)" />
-            <text x="800" y="115" text-anchor="middle" font-size="10" opacity="0.65" class="mono-label">csv_writer.py</text>
+            <text x="800" y="115" text-anchor="middle" font-size="10" opacity="0.65">csv_writer.py</text>
           </svg>
         </div>
         <figcaption>extract.py orchestrates this loop over every PDF, then prints a coverage summary.</figcaption>
@@ -582,7 +600,7 @@
         <div class="stat"><div class="n" style="font-size:16px">Walk</div><div class="l">daily ingestion, human review, a warehouse</div></div>
         <div class="stat"><div class="n" style="font-size:16px">Run</div><div class="l">dashboards, alerting, portfolio-wide trend analysis</div></div>
       </div>
-      <span class="badge concept">The next two slides are a proposed design &mdash; not implemented</span>
+      <span class="badge concept">The next four slides are a proposed design &mdash; not implemented</span>
     </div>
   </section>
 
@@ -617,7 +635,7 @@
             <rect x="430" y="30" width="150" height="52" rx="8" fill="none" stroke="currentColor" />
             <text x="505" y="52" text-anchor="middle" font-size="12.5">Orchestrator</text>
             <text x="505" y="67" text-anchor="middle" font-size="10" opacity="0.65">daily job</text>
-            <rect x="556" y="34" width="18" height="18" rx="4" fill="#ffffff" stroke="#017CEE" stroke-width="0.75" opacity="0.97" /><g transform="translate(559.00,37.00) scale(0.5000)"><path d="M17.195 16.822l4.002-4.102C23.55 10.308 23.934 5.154 24 .43a.396.396 0 0 0-.246-.373.392.392 0 0 0-.437.09l-6.495 6.658-4.102-4.003C10.309.45 5.154.066.43 0H.423a.397.397 0 0 0-.277.683l6.658 6.494-4.003 4.103C.45 13.692.065 18.846 0 23.57a.398.398 0 0 0 .683.282l6.494-6.657 3.934 3.837.17.165c2.41 2.353 7.565 2.737 12.288 2.803h.006a.397.397 0 0 0 .277-.683l-6.657-6.495zm-.409-9.476c.04.115.05.24.031.344-.17.96-1.593 2.538-4.304 3.87a.597.597 0 0 0-.08-.079c1.432-3.155 1.828-5.61 1.175-7.322l3.058 2.984.12.203zm-.131 9.44a.73.73 0 0 1-.347.031c-.96-.171-2.537-1.594-3.87-4.307a.656.656 0 0 0 .08-.078l-.001.001c3.155 1.432 5.61 1.83 7.324 1.174l-2.969 3.043M23.568.392a.05.05 0 0 1 .052-.011c.018.006.03.024.029.043-.065 4.655-.437 9.726-2.703 12.05-1.53 1.565-4.326 1.419-8.283-.377.006-.037.021-.07.02-.108 0-.044-.017-.082-.026-.123 2.83-1.39 4.315-3.037 4.506-4.115.057-.322-.009-.542-.102-.688l6.507-6.67V.392zM.393.43A.045.045 0 0 1 .382.38C.39.36.403.343.425.35c4.655.065 9.727.438 12.05 2.703l.002.002c1.56 1.527 1.415 4.323-.379 8.28-.033-.005-.062-.02-.097-.02h-.008c-.045.001-.084.019-.126.027-1.39-2.83-3.037-4.314-4.115-4.506-.323-.057-.542.01-.688.103L.393.43zm11.94 11.563a.331.331 0 0 1-.327.335H12a.332.332 0 0 1-.004-.661c.172.016.333.144.335.326h.002zm-5.12 4.661a.722.722 0 0 1-.03-.345c.17-.96 1.595-2.54 4.309-3.873.013.016.019.035.033.05.013.012.03.017.044.028-1.434 3.158-1.83 5.613-1.177 7.326l-3.041-2.967m-.006-9.659a.735.735 0 0 1 .345-.031c.961.17 2.54 1.594 3.871 4.306a.597.597 0 0 0-.079.08c-2.167-.983-4.007-1.484-5.498-1.484-.68 0-1.289.103-1.825.308L7.128 7.35M.43 23.607c-.018.018-.038.015-.052.01-.019-.007-.028-.021-.028-.043.065-4.654.437-9.725 2.703-12.049 1.527-1.565 4.325-1.419 8.286.378-.006.035-.02.067-.02.104 0 .043.018.083.026.124-2.831 1.391-4.317 3.04-4.51 4.117-.057.322.01.542.103.688L.43 23.607zm23.144.042c-4.655-.065-9.726-.437-12.05-2.703l-.005-.006c-1.56-1.526-1.412-4.322.383-8.279.033.005.064.02.098.02h.009c.043 0 .08-.018.122-.027 1.39 2.832 3.036 4.317 4.115 4.51.083.014.16.021.23.021a.776.776 0 0 0 .45-.133l6.68 6.516c.02.02.016.04.01.052a.042.042 0 0 1-.042.029z" fill="#017CEE" /></g>
+            <rect x="556" y="34" width="18" height="18" rx="4" fill="#ffffff" stroke="#017CEE" stroke-width="0.75" opacity="0.97" /><g transform="translate(565,43)"><ellipse cx="2.6" cy="0" rx="4.2" ry="1.7" fill="#017CEE" transform="rotate(0)" /><ellipse cx="2.6" cy="0" rx="4.2" ry="1.7" fill="#017CEE" transform="rotate(90)" /><ellipse cx="2.6" cy="0" rx="4.2" ry="1.7" fill="#017CEE" transform="rotate(180)" /><ellipse cx="2.6" cy="0" rx="4.2" ry="1.7" fill="#017CEE" transform="rotate(270)" /><circle cx="0" cy="0" r="1.1" fill="#017CEE" /></g>
             <line x1="580" y1="56" x2="636" y2="56" stroke="currentColor" marker-end="url(#arrow2)" />
             <text x="608" y="46" text-anchor="middle" font-size="9.5" opacity="0.65">invokes</text>
 
@@ -667,7 +685,133 @@
     </div>
   </section>
 
-  <!-- 10: What changes at scale -->
+  <!-- 10: Data model layers -->
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="eyebrow"><span class="rule"></span>Data model &mdash; concept</span>
+      <h2>Bronze, silver, gold.</h2>
+      <figure class="diagram">
+        <div class="diagram-frame">
+          <svg viewBox="0 0 1000 250" role="img" aria-label="A three-layer medallion data model. Bronze is the raw landing zone holding source PDFs untouched and append-only. Parsing and typing produces the Silver layer, one row per company, period, and metric, with the raw label kept for audit. Pivoting and resolving company identity produces the Gold layer, one row per company-period with metrics as columns, ready for dashboards.">
+            <defs>
+              <marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
+              </marker>
+            </defs>
+
+            <!-- bronze -->
+            <rect x="20" y="20" width="280" height="200" rx="10" class="bronze-fill" />
+            <rect x="36" y="34" width="66" height="20" rx="10" class="bronze-fill" />
+            <text x="69" y="48" text-anchor="middle" font-size="10" letter-spacing="0.06em" class="bronze-text">BRONZE</text>
+            <text x="36" y="80" font-size="15">Raw landing</text>
+            <text x="36" y="102" font-size="11" opacity="0.82">Exactly as received &mdash; original PDF</text>
+            <text x="36" y="119" font-size="11" opacity="0.82">bytes, untouched. Append-only, so</text>
+            <text x="36" y="136" font-size="11" opacity="0.82">any run can be replayed from here.</text>
+            <line x1="36" y1="158" x2="284" y2="158" stroke="currentColor" opacity="0.18" />
+            <text x="36" y="177" font-size="9" letter-spacing="0.08em" opacity="0.55">BUILT TODAY AS</text>
+            <text x="36" y="197" font-size="12.5" class="mono">data/*.pdf</text>
+
+            <line x1="300" y1="120" x2="336" y2="120" stroke="currentColor" marker-end="url(#arrow3)" />
+            <text x="318" y="110" text-anchor="middle" font-size="9.5" opacity="0.65">parse</text>
+
+            <!-- silver -->
+            <rect x="340" y="20" width="280" height="200" rx="10" class="silver-fill" />
+            <rect x="356" y="34" width="66" height="20" rx="10" class="silver-fill" />
+            <text x="389" y="48" text-anchor="middle" font-size="10" letter-spacing="0.06em" class="silver-text">SILVER</text>
+            <text x="356" y="80" font-size="15">Parsed &amp; conformed</text>
+            <text x="356" y="102" font-size="11" opacity="0.82">One row per company, period, and</text>
+            <text x="356" y="119" font-size="11" opacity="0.82">metric &mdash; typed value + unit, alias</text>
+            <text x="356" y="136" font-size="11" opacity="0.82">resolved, raw label kept for audit.</text>
+            <line x1="356" y1="158" x2="604" y2="158" stroke="currentColor" opacity="0.18" />
+            <text x="356" y="177" font-size="9" letter-spacing="0.08em" opacity="0.55">BUILT TODAY AS</text>
+            <text x="356" y="197" font-size="12.5" class="mono">metrics_long.csv</text>
+
+            <line x1="620" y1="120" x2="656" y2="120" stroke="currentColor" marker-end="url(#arrow3)" />
+            <text x="638" y="110" text-anchor="middle" font-size="9.5" opacity="0.65">pivot</text>
+
+            <!-- gold -->
+            <rect x="660" y="20" width="280" height="200" rx="10" class="gold-fill" />
+            <rect x="676" y="34" width="66" height="20" rx="10" class="gold-fill" />
+            <text x="709" y="48" text-anchor="middle" font-size="10" letter-spacing="0.06em" class="gold-text">GOLD</text>
+            <text x="676" y="80" font-size="15">Business-ready</text>
+            <text x="676" y="102" font-size="11" opacity="0.82">One row per company-period,</text>
+            <text x="676" y="119" font-size="11" opacity="0.82">metrics as columns &mdash; company</text>
+            <text x="676" y="136" font-size="11" opacity="0.82">identity resolved. Ready for BI.</text>
+            <line x1="676" y1="158" x2="924" y2="158" stroke="currentColor" opacity="0.18" />
+            <text x="676" y="177" font-size="9" letter-spacing="0.08em" opacity="0.55">BUILT TODAY AS</text>
+            <text x="676" y="197" font-size="12.5" class="mono">metrics_wide.csv</text>
+          </svg>
+        </div>
+        <figcaption>The crawl-phase pipeline already produces silver- and gold-shaped output as CSVs &mdash; the ingestion design on the previous slide formalizes bronze (immutable landing) and puts all three layers on a nightly schedule in a warehouse.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 11: Gold layer ERD -->
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="eyebrow"><span class="rule"></span>Data model &mdash; concept</span>
+      <h2>The gold layer, as a star schema.</h2>
+      <figure class="diagram">
+        <div class="diagram-frame">
+          <svg viewBox="0 0 870 320" role="img" aria-label="Entity-relationship diagram of the gold layer. A dim_company dimension table, keyed by company_key and tracking name aliases and effective dates as a slowly changing dimension, relates one-to-many to a fact_company_period_metrics fact table keyed by company_key and period, holding the eight extracted metrics as columns.">
+            <defs>
+              <marker id="arrow4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
+              </marker>
+            </defs>
+
+            <!-- dim_company -->
+            <rect x="30" y="30" width="300" height="186" rx="8" class="silver-fill" />
+            <text x="48" y="50" font-size="13" class="mono">dim_company</text>
+            <text x="48" y="66" font-size="9" opacity="0.6">dimension &middot; SCD Type 2</text>
+            <line x1="30" y1="76" x2="330" y2="76" stroke="currentColor" opacity="0.25" />
+            <rect x="30" y="106" width="300" height="20" fill="currentColor" opacity="0.035" />
+            <rect x="30" y="146" width="300" height="20" fill="currentColor" opacity="0.035" />
+            <rect x="30" y="186" width="300" height="20" fill="currentColor" opacity="0.035" />
+            <text x="48" y="100" font-size="11.5" class="mono">company_key</text>
+            <text x="312" y="100" text-anchor="end" font-size="9.5" letter-spacing="0.04em" class="accent-text">PK</text>
+            <text x="48" y="120" font-size="11.5" class="mono">company_name</text>
+            <text x="48" y="140" font-size="11.5" class="mono">also_known_as</text>
+            <text x="48" y="160" font-size="11.5" class="mono">reporting_currency</text>
+            <text x="48" y="180" font-size="11.5" class="mono">effective_from</text>
+            <text x="48" y="200" font-size="11.5" class="mono">effective_to</text>
+
+            <!-- relationship -->
+            <line x1="330" y1="96" x2="426" y2="96" stroke="currentColor" marker-end="url(#arrow4)" />
+            <text x="338" y="90" font-size="10" opacity="0.7">1</text>
+            <text x="416" y="90" text-anchor="end" font-size="10" opacity="0.7">N</text>
+
+            <!-- fact_company_period_metrics -->
+            <rect x="430" y="30" width="380" height="266" rx="8" class="gold-fill" />
+            <text x="448" y="50" font-size="13" class="mono">fact_company_period_metrics</text>
+            <text x="448" y="66" font-size="9" opacity="0.6">fact &middot; one row per company-period</text>
+            <line x1="430" y1="76" x2="810" y2="76" stroke="currentColor" opacity="0.25" />
+            <rect x="430" y="106" width="380" height="20" fill="currentColor" opacity="0.035" />
+            <rect x="430" y="146" width="380" height="20" fill="currentColor" opacity="0.035" />
+            <rect x="430" y="186" width="380" height="20" fill="currentColor" opacity="0.035" />
+            <rect x="430" y="226" width="380" height="20" fill="currentColor" opacity="0.035" />
+            <rect x="430" y="266" width="380" height="20" fill="currentColor" opacity="0.035" />
+            <text x="448" y="100" font-size="11.5" class="mono">company_key</text>
+            <text x="792" y="100" text-anchor="end" font-size="9.5" letter-spacing="0.04em" class="accent-text">PK&middot;FK</text>
+            <text x="448" y="120" font-size="11.5" class="mono">period</text>
+            <text x="792" y="120" text-anchor="end" font-size="9.5" letter-spacing="0.04em" class="accent-text">PK</text>
+            <text x="448" y="140" font-size="11.5" class="mono">revenue</text>
+            <text x="448" y="160" font-size="11.5" class="mono">arr</text>
+            <text x="448" y="180" font-size="11.5" class="mono">gross_margin</text>
+            <text x="448" y="200" font-size="11.5" class="mono">net_revenue_retention</text>
+            <text x="448" y="220" font-size="11.5" class="mono">logo_churn</text>
+            <text x="448" y="240" font-size="11.5" class="mono">headcount</text>
+            <text x="448" y="260" font-size="11.5" class="mono">cash_balance</text>
+            <text x="448" y="280" font-size="11.5" class="mono">net_burn</text>
+          </svg>
+        </div>
+        <figcaption>A minimal star schema for Gold: one fact row per company-period, joined to a slowly-changing company dimension so a rebrand (like FleetLink &rarr; ApexFreight, footnoted in the source PDFs) doesn't fork the time series.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 12: What changes at scale -->
   <section class="slide">
     <div class="slide-inner">
       <span class="eyebrow"><span class="rule"></span>Real-world path &mdash; concept</span>
@@ -692,7 +836,7 @@
     <button class="nav-btn" id="prevBtn" aria-label="Previous slide">&#8592; Prev</button>
   </div>
   <div style="display:flex; align-items:center; gap:14px;">
-    <span class="counter" id="counter" aria-live="polite">1 / 11</span>
+    <span class="counter" id="counter" aria-live="polite">1 / 13</span>
     <div class="dots" id="dots"></div>
   </div>
   <button class="nav-btn" id="nextBtn" aria-label="Next slide">Next &#8594;</button>
