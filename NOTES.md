@@ -125,5 +125,5 @@ businesses; no `arr`/`logo_churn` for non-subscription businesses).
 
 [`presentation.html`](presentation.html) is a short slide deck covering the
 same ground as this document, plus one thing this document doesn't: a
-proposed (not built) architecture for running this daily and landing results
-in Snowflake, in case that's a useful starting point for discussion.
+proposed (not built) architecture for running this daily on GCP and landing
+results in BigQuery, in case that's a useful starting point for discussion.

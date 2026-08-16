@@ -517,10 +517,10 @@
   <section class="slide">
     <div class="slide-inner">
       <span class="eyebrow"><span class="rule"></span>Real-world path &mdash; concept</span>
-      <h2>Daily ingestion into Snowflake.</h2>
+      <h2>Daily ingestion into BigQuery.</h2>
       <figure class="diagram">
         <div class="diagram-frame">
-          <svg viewBox="0 0 1000 300" role="img" aria-label="Portfolio companies drop reports nightly into an ingestion zone, which triggers a daily orchestrator, which invokes the extraction service. The service writes raw and parsed data into a Snowflake raw layer, sends low-confidence rows to a human review queue, and validated data lands in a curated layer that feeds dashboards and analysts. Approved review-queue rows also feed the curated layer.">
+          <svg viewBox="0 0 1000 300" role="img" aria-label="Portfolio companies drop reports nightly into a Google Cloud Storage zone, which triggers a daily Airflow-orchestrated job, which invokes the extraction service. The service writes raw and parsed data into a BigQuery raw layer, sends low-confidence rows to a human review queue, and validated data lands in a curated BigQuery layer that feeds dashboards and analysts. Approved review-queue rows also feed the curated layer.">
             <defs>
               <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
                 <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
@@ -536,13 +536,15 @@
 
             <rect x="220" y="30" width="150" height="52" rx="8" fill="none" stroke="currentColor" />
             <text x="295" y="52" text-anchor="middle" font-size="12.5">Drop zone</text>
-            <text x="295" y="67" text-anchor="middle" font-size="10" opacity="0.65">SFTP / S3 / email</text>
+            <text x="295" y="67" text-anchor="middle" font-size="10" opacity="0.65">SFTP / Cloud Storage / email</text>
+            <rect x="346" y="34" width="18" height="18" rx="4" fill="#ffffff" stroke="#AECBFA" stroke-width="0.75" opacity="0.97" /><g transform="translate(349.00,37.00) scale(0.5000)"><path d="M24 2.4v8.4h-2.4V2.4H24zM0 10.8h2.4V2.4H0v8.4zm3-8.4h18v8.4H3V2.4zm12.6 4.2a1.8 1.8 0 1 0 3.6 0 1.8 1.8 0 0 0-3.6 0zm-10.8.6H12V6H4.8v1.2zm16.8 14.4H24v-8.4h-2.4v8.4zM0 21.6h2.4v-8.4H0v8.4zm3-8.4h18v8.4H3v-8.4zm12.6 4.2a1.8 1.8 0 1 0 3.6 0 1.8 1.8 0 0 0-3.6 0zM4.8 18H12v-1.2H4.8V18z" fill="#4285F4" /></g>
             <line x1="370" y1="56" x2="426" y2="56" stroke="currentColor" marker-end="url(#arrow2)" />
             <text x="398" y="46" text-anchor="middle" font-size="9.5" opacity="0.65">triggers</text>
 
             <rect x="430" y="30" width="150" height="52" rx="8" fill="none" stroke="currentColor" />
             <text x="505" y="52" text-anchor="middle" font-size="12.5">Orchestrator</text>
             <text x="505" y="67" text-anchor="middle" font-size="10" opacity="0.65">daily job</text>
+            <rect x="556" y="34" width="18" height="18" rx="4" fill="#ffffff" stroke="#017CEE" stroke-width="0.75" opacity="0.97" /><g transform="translate(559.00,37.00) scale(0.5000)"><path d="M17.195 16.822l4.002-4.102C23.55 10.308 23.934 5.154 24 .43a.396.396 0 0 0-.246-.373.392.392 0 0 0-.437.09l-6.495 6.658-4.102-4.003C10.309.45 5.154.066.43 0H.423a.397.397 0 0 0-.277.683l6.658 6.494-4.003 4.103C.45 13.692.065 18.846 0 23.57a.398.398 0 0 0 .683.282l6.494-6.657 3.934 3.837.17.165c2.41 2.353 7.565 2.737 12.288 2.803h.006a.397.397 0 0 0 .277-.683l-6.657-6.495zm-.409-9.476c.04.115.05.24.031.344-.17.96-1.593 2.538-4.304 3.87a.597.597 0 0 0-.08-.079c1.432-3.155 1.828-5.61 1.175-7.322l3.058 2.984.12.203zm-.131 9.44a.73.73 0 0 1-.347.031c-.96-.171-2.537-1.594-3.87-4.307a.656.656 0 0 0 .08-.078l-.001.001c3.155 1.432 5.61 1.83 7.324 1.174l-2.969 3.043M23.568.392a.05.05 0 0 1 .052-.011c.018.006.03.024.029.043-.065 4.655-.437 9.726-2.703 12.05-1.53 1.565-4.326 1.419-8.283-.377.006-.037.021-.07.02-.108 0-.044-.017-.082-.026-.123 2.83-1.39 4.315-3.037 4.506-4.115.057-.322-.009-.542-.102-.688l6.507-6.67V.392zM.393.43A.045.045 0 0 1 .382.38C.39.36.403.343.425.35c4.655.065 9.727.438 12.05 2.703l.002.002c1.56 1.527 1.415 4.323-.379 8.28-.033-.005-.062-.02-.097-.02h-.008c-.045.001-.084.019-.126.027-1.39-2.83-3.037-4.314-4.115-4.506-.323-.057-.542.01-.688.103L.393.43zm11.94 11.563a.331.331 0 0 1-.327.335H12a.332.332 0 0 1-.004-.661c.172.016.333.144.335.326h.002zm-5.12 4.661a.722.722 0 0 1-.03-.345c.17-.96 1.595-2.54 4.309-3.873.013.016.019.035.033.05.013.012.03.017.044.028-1.434 3.158-1.83 5.613-1.177 7.326l-3.041-2.967m-.006-9.659a.735.735 0 0 1 .345-.031c.961.17 2.54 1.594 3.871 4.306a.597.597 0 0 0-.079.08c-2.167-.983-4.007-1.484-5.498-1.484-.68 0-1.289.103-1.825.308L7.128 7.35M.43 23.607c-.018.018-.038.015-.052.01-.019-.007-.028-.021-.028-.043.065-4.654.437-9.725 2.703-12.049 1.527-1.565 4.325-1.419 8.286.378-.006.035-.02.067-.02.104 0 .043.018.083.026.124-2.831 1.391-4.317 3.04-4.51 4.117-.057.322.01.542.103.688L.43 23.607zm23.144.042c-4.655-.065-9.726-.437-12.05-2.703l-.005-.006c-1.56-1.526-1.412-4.322.383-8.279.033.005.064.02.098.02h.009c.043 0 .08-.018.122-.027 1.39 2.832 3.036 4.317 4.115 4.51.083.014.16.021.23.021a.776.776 0 0 0 .45-.133l6.68 6.516c.02.02.016.04.01.052a.042.042 0 0 1-.042.029z" fill="#017CEE" /></g>
             <line x1="580" y1="56" x2="636" y2="56" stroke="currentColor" marker-end="url(#arrow2)" />
             <text x="608" y="46" text-anchor="middle" font-size="9.5" opacity="0.65">invokes</text>
 
@@ -550,6 +552,7 @@
             <text x="730" y="45" text-anchor="middle" font-size="12.5" class="accent-text">Extraction service</text>
             <text x="730" y="61" text-anchor="middle" font-size="10" class="accent-text" opacity="0.8">this pipeline,</text>
             <text x="730" y="75" text-anchor="middle" font-size="10" class="accent-text" opacity="0.8">+ LLM assist for gaps</text>
+            <rect x="796" y="19" width="18" height="18" rx="4" fill="#ffffff" stroke="#3776AB" stroke-width="0.75" opacity="0.97" /><g transform="translate(799.00,22.00) scale(0.5000)"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z" fill="#3776AB" /></g>
 
             <!-- down to review queue -->
             <line x1="730" y1="97" x2="730" y2="150" stroke="currentColor" marker-end="url(#arrow2)" />
@@ -563,8 +566,9 @@
             <text x="545" y="128" font-size="9.5" opacity="0.65">writes raw + parsed</text>
 
             <rect x="330" y="154" width="170" height="50" rx="8" fill="none" stroke="currentColor" />
-            <text x="415" y="174" text-anchor="middle" font-size="12">Snowflake &mdash; RAW</text>
+            <text x="415" y="174" text-anchor="middle" font-size="12">BigQuery &mdash; RAW</text>
             <text x="415" y="189" text-anchor="middle" font-size="10" opacity="0.65">immutable landing</text>
+            <rect x="476" y="158" width="18" height="18" rx="4" fill="#ffffff" stroke="#669DF6" stroke-width="0.75" opacity="0.97" /><g transform="translate(479.00,161.00) scale(0.5000)"><path d="M5.676 10.595h2.052v5.244a5.892 5.892 0 0 1-2.052-2.088v-3.156zm18.179 10.836a.504.504 0 0 1 0 .708l-1.716 1.716a.504.504 0 0 1-.708 0l-4.248-4.248a.206.206 0 0 1-.007-.007c-.02-.02-.028-.045-.043-.066a10.736 10.736 0 0 1-6.334 2.065C4.835 21.599 0 16.764 0 10.799S4.835 0 10.8 0s10.799 4.835 10.799 10.8c0 2.369-.772 4.553-2.066 6.333.025.017.052.028.074.05l4.248 4.248zm-5.028-10.632a8.015 8.015 0 1 0-8.028 8.028h.024a8.016 8.016 0 0 0 8.004-8.028zm-4.86 4.98a6.002 6.002 0 0 0 2.04-2.184v-1.764h-2.04v3.948zm-4.5.948c.442.057.887.08 1.332.072.4.025.8.025 1.2 0V7.692H9.468v9.035z" fill="#669DF6" /></g>
 
             <line x1="500" y1="179" x2="636" y2="179" stroke="currentColor" opacity="0.55" marker-end="url(#arrow2)" />
 
@@ -573,8 +577,9 @@
             <text x="480" y="222" font-size="9.5" opacity="0.65">validates &amp; upserts / approved rows</text>
 
             <rect x="330" y="244" width="200" height="50" rx="8" fill="none" stroke="currentColor" />
-            <text x="430" y="264" text-anchor="middle" font-size="12">Snowflake &mdash; CURATED</text>
+            <text x="430" y="264" text-anchor="middle" font-size="12">BigQuery &mdash; CURATED</text>
             <text x="430" y="279" text-anchor="middle" font-size="10" opacity="0.65">one row per company-period</text>
+            <rect x="506" y="248" width="18" height="18" rx="4" fill="#ffffff" stroke="#669DF6" stroke-width="0.75" opacity="0.97" /><g transform="translate(509.00,251.00) scale(0.5000)"><path d="M5.676 10.595h2.052v5.244a5.892 5.892 0 0 1-2.052-2.088v-3.156zm18.179 10.836a.504.504 0 0 1 0 .708l-1.716 1.716a.504.504 0 0 1-.708 0l-4.248-4.248a.206.206 0 0 1-.007-.007c-.02-.02-.028-.045-.043-.066a10.736 10.736 0 0 1-6.334 2.065C4.835 21.599 0 16.764 0 10.799S4.835 0 10.8 0s10.799 4.835 10.799 10.8c0 2.369-.772 4.553-2.066 6.333.025.017.052.028.074.05l4.248 4.248zm-5.028-10.632a8.015 8.015 0 1 0-8.028 8.028h.024a8.016 8.016 0 0 0 8.004-8.028zm-4.86 4.98a6.002 6.002 0 0 0 2.04-2.184v-1.764h-2.04v3.948zm-4.5.948c.442.057.887.08 1.332.072.4.025.8.025 1.2 0V7.692H9.468v9.035z" fill="#669DF6" /></g>
 
             <line x1="530" y1="269" x2="716" y2="269" stroke="currentColor" marker-end="url(#arrow2)" />
             <text x="620" y="259" text-anchor="middle" font-size="9.5" opacity="0.65">reads</text>
