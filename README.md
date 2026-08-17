@@ -5,8 +5,24 @@ consistent set of metrics into a table that's easy to scan across companies and
 quarters.
 
 See [`NOTES.md`](NOTES.md) for the approach, assumptions, and next steps, and
-[`presentation.html`](presentation.html) for a slide-deck walkthrough (open it
-in a browser, arrow keys to navigate).
+[`presentation.html`](presentation.html) for a slide-deck walkthrough.
+
+## Viewing the presentation
+
+`presentation.html` is self-contained — no build step, no dependencies — but
+GitHub only shows its raw source in the browser, not the rendered slides, so
+open it locally instead:
+
+```bash
+git clone https://github.com/chanakyan04/sagardcasestudy.git
+cd sagardcasestudy
+open presentation.html        # macOS; use xdg-open on Linux, start on Windows
+```
+
+Or, without cloning: on the file's GitHub page, use **Download raw file**,
+then double-click the downloaded file to open it in your default browser.
+
+Navigate with the `Next`/`Prev` buttons, the arrow keys, or swipe (touch).
 
 ## Setup
 
