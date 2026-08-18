@@ -9,14 +9,14 @@ def format_metric(info, blank=""):
     return f"{info['value']}{info['unit'] or ''}"
 
 
-def write_long_csv(path, records, metric_names):
+def write_long_csv(path, records, metric_names, inserted_at):
     """One row per (company, year, quarter, metric) -- includes the raw source text for auditability."""
     with open(path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow([
             "company_key", "company_display_name", "year", "quarter", "reporting_currency",
             "metric", "raw_label", "raw_value", "value", "unit",
-            "matched_alias", "extraction_method", "source_file",
+            "matched_alias", "extraction_method", "source_file", "inserted_at",
         ])
         for r in records:
             for metric_name in metric_names:  # Always emit a row for every metric, even if it's blank.
@@ -31,19 +31,23 @@ def write_long_csv(path, records, metric_names):
                     info["matched_alias"] if info else "",
                     info["extraction_method"] if info else "",
                     r["file"],
+                    inserted_at,
                 ])
 
 
-def write_wide_csv(path, records, metric_names):
+def write_wide_csv(path, records, metric_names, inserted_at):
     """One row per (company, year, quarter), metrics as columns -- the "review across companies" view."""
     with open(path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(
-            ["company_key", "company_display_name", "year", "quarter", "reporting_currency", "source_file"]
+            ["company_key", "company_display_name", "year", "quarter", "reporting_currency", "source_file", "inserted_at"]
             + metric_names
         )
         for r in records:
-            row = [r["company_key"], r["company_display_name"], r["year"], r["quarter"], r["reporting_currency"], r["file"]]
+            row = [
+                r["company_key"], r["company_display_name"], r["year"], r["quarter"], r["reporting_currency"],
+                r["file"], inserted_at,
+            ]
             # Missing metrics are left blank rather than "N/A" so the column stays CSV/numeric-friendly.
             row += [format_metric(r["metrics"].get(m)) for m in metric_names]
             writer.writerow(row)

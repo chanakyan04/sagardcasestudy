@@ -9,6 +9,7 @@ This is the entry point / orchestrator: it wires together the PDF parsing
 import argparse
 import glob
 import os
+from datetime import datetime, timezone
 
 from config import SKIP_FILE_PREFIXES, METRIC_ALIASES
 from pdf_parser import process_pdf
@@ -41,11 +42,12 @@ def main():
 
     records.sort(key=lambda r: (r["company_key"], r["year"], r["quarter"]))  # Group by company, then chronological.
     metric_names = list(METRIC_ALIASES.keys())  # The 8 canonical metric names, in declaration order.
+    inserted_at = datetime.now(timezone.utc).isoformat()  # One timestamp for the whole run, stamped on every row.
 
     long_path = os.path.join(args.output_dir, "metrics_long.csv")
     wide_path = os.path.join(args.output_dir, "metrics_wide.csv")
-    write_long_csv(long_path, records, metric_names)  # One row per (company, year, quarter, metric) — auditable, includes raw source text.
-    write_wide_csv(wide_path, records, metric_names)  # One row per (company, year, quarter) — easier to scan across companies.
+    write_long_csv(long_path, records, metric_names, inserted_at)  # One row per (company, year, quarter, metric) — auditable, includes raw source text.
+    write_wide_csv(wide_path, records, metric_names, inserted_at)  # One row per (company, year, quarter) — easier to scan across companies.
 
     total_cells = len(records) * len(metric_names)  # Size of the full company-period x metric grid.
     filled_cells = sum(1 for r in records for m in metric_names if m in r["metrics"])  # How many cells we actually got a value for.

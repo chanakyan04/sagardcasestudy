@@ -42,9 +42,10 @@ writes two files to `output/`:
 
 - `metrics_long.csv` — one row per (company, year, quarter, metric), including
   the raw label/value text the number was extracted from, which alias matched,
-  and whether it came from a table row or narrative-text fallback, for
-  auditability.
-- `metrics_wide.csv` — one row per (company, year, quarter), metrics as
+  whether it came from a table row or narrative-text fallback, and when the
+  row was generated (`inserted_at`), for auditability.
+- `metrics_wide.csv` — one row per (company, year, quarter), also stamped with
+  `inserted_at`, metrics as
   columns. This is the "review across companies" view.
 
 Optional flags: `--input <folder>` / `--output-dir <folder>` to point at a

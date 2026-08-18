@@ -27,8 +27,10 @@ Five small modules under `src/`, each with one job:
   back to narrative-text regexes for headcount, where two reports disclose it
   only in prose.
 - **`csv_writer.py`** — writes a long CSV (one row per metric, raw
-  label/value kept for audit) and a wide CSV (one row per company-quarter),
-  plus a console preview.
+  label/value kept for audit, plus which alias matched, whether it came from
+  a table row or the narrative fallback, and an `inserted_at` run timestamp)
+  and a wide CSV (one row per company-quarter, also stamped with
+  `inserted_at`), plus a console preview.
 - **`extract.py`** — CLI entry point; orchestrates the above and prints a
   coverage summary.
 
