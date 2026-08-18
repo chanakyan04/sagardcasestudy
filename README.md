@@ -40,10 +40,10 @@ python3 src/extract.py
 Reads every PDF in `data/`, prints a coverage summary and a preview table, and
 writes two files to `output/`:
 
-- `metrics_long.csv` — one row per (company, period, metric), including the
-  raw label/value text the number was extracted from, for auditability.
-- `metrics_wide.csv` — one row per (company, period), metrics as columns.
-  This is the "review across companies" view.
+- `metrics_long.csv` — one row per (company, year, quarter, metric), including
+  the raw label/value text the number was extracted from, for auditability.
+- `metrics_wide.csv` — one row per (company, year, quarter), metrics as
+  columns. This is the "review across companies" view.
 
 Optional flags: `--input <folder>` / `--output-dir <folder>` to point at a
 different set of PDFs.

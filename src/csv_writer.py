@@ -10,18 +10,18 @@ def format_metric(info, blank=""):
 
 
 def write_long_csv(path, records, metric_names):
-    """One row per (company, period, metric) -- includes the raw source text for auditability."""
+    """One row per (company, year, quarter, metric) -- includes the raw source text for auditability."""
     with open(path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow([
-            "company_key", "company_display_name", "period", "reporting_currency",
+            "company_key", "company_display_name", "year", "quarter", "reporting_currency",
             "metric", "raw_label", "raw_value", "value", "unit", "source_file",
         ])
         for r in records:
             for metric_name in metric_names:  # Always emit a row for every metric, even if it's blank.
                 info = r["metrics"].get(metric_name)
                 writer.writerow([
-                    r["company_key"], r["company_display_name"], r["period"], r["reporting_currency"],
+                    r["company_key"], r["company_display_name"], r["year"], r["quarter"], r["reporting_currency"],
                     metric_name,
                     info["raw_label"] if info else "",
                     info["raw_value"] if info else "",
@@ -32,15 +32,15 @@ def write_long_csv(path, records, metric_names):
 
 
 def write_wide_csv(path, records, metric_names):
-    """One row per (company, period), metrics as columns -- the "review across companies" view."""
+    """One row per (company, year, quarter), metrics as columns -- the "review across companies" view."""
     with open(path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(
-            ["company_key", "company_display_name", "period", "reporting_currency", "source_file"]
+            ["company_key", "company_display_name", "year", "quarter", "reporting_currency", "source_file"]
             + metric_names
         )
         for r in records:
-            row = [r["company_key"], r["company_display_name"], r["period"], r["reporting_currency"], r["file"]]
+            row = [r["company_key"], r["company_display_name"], r["year"], r["quarter"], r["reporting_currency"], r["file"]]
             # Missing metrics are left blank rather than "N/A" so the column stays CSV/numeric-friendly.
             row += [format_metric(r["metrics"].get(m)) for m in metric_names]
             writer.writerow(row)
@@ -48,9 +48,10 @@ def write_wide_csv(path, records, metric_names):
 
 def print_preview(records, metric_names, limit=8):
     """Print a readable ASCII table of the first `limit` rows, so you can sanity-check without opening the CSV."""
-    header = ["company", "period"] + metric_names
+    header = ["company", "year", "quarter"] + metric_names
     rows = [
-        [r["company_key"], r["period"]] + [format_metric(r["metrics"].get(m), blank="-") for m in metric_names]
+        [r["company_key"], str(r["year"]), str(r["quarter"])]
+        + [format_metric(r["metrics"].get(m), blank="-") for m in metric_names]
         for r in records[:limit]
     ]
 

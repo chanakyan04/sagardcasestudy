@@ -44,8 +44,8 @@ def main():
 
     long_path = os.path.join(args.output_dir, "metrics_long.csv")
     wide_path = os.path.join(args.output_dir, "metrics_wide.csv")
-    write_long_csv(long_path, records, metric_names)  # One row per (company, period, metric) — auditable, includes raw source text.
-    write_wide_csv(wide_path, records, metric_names)  # One row per (company, period) — easier to scan across companies.
+    write_long_csv(long_path, records, metric_names)  # One row per (company, year, quarter, metric) — auditable, includes raw source text.
+    write_wide_csv(wide_path, records, metric_names)  # One row per (company, year, quarter) — easier to scan across companies.
 
     total_cells = len(records) * len(metric_names)  # Size of the full company-period x metric grid.
     filled_cells = sum(1 for r in records for m in metric_names if m in r["metrics"])  # How many cells we actually got a value for.

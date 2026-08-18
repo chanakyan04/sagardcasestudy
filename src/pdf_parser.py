@@ -93,7 +93,6 @@ def process_pdf(path):
         "file": filename,
         "company_key": canonical_key,
         "company_display_name": display_name,
-        "period": f"Q{quarter} {year}",
         "quarter": quarter,
         "year": year,
         "reporting_currency": detect_currency(text),
