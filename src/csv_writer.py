@@ -15,7 +15,8 @@ def write_long_csv(path, records, metric_names):
         writer = csv.writer(f)
         writer.writerow([
             "company_key", "company_display_name", "year", "quarter", "reporting_currency",
-            "metric", "raw_label", "raw_value", "value", "unit", "source_file",
+            "metric", "raw_label", "raw_value", "value", "unit",
+            "matched_alias", "extraction_method", "source_file",
         ])
         for r in records:
             for metric_name in metric_names:  # Always emit a row for every metric, even if it's blank.
@@ -27,6 +28,8 @@ def write_long_csv(path, records, metric_names):
                     info["raw_value"] if info else "",
                     info["value"] if info else "",
                     info["unit"] if info else "",
+                    info["matched_alias"] if info else "",
+                    info["extraction_method"] if info else "",
                     r["file"],
                 ])
 

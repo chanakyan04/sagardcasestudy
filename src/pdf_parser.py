@@ -17,25 +17,27 @@ def nonblank_lines(text):
     return [l.strip() for l in text.splitlines() if l.strip()]
 
 
-def _metric_entry(raw_label, raw_value):
-    """Build one extracted-metric record, keeping the raw source text for auditability."""
+def _metric_entry(raw_label, raw_value, matched_alias, extraction_method):
+    """Build one extracted-metric record, keeping the raw source text and match provenance for auditability."""
     value, unit = parse_value(raw_value)
     return {
         "raw_label": raw_label,   # The exact source line the value came from.
         "raw_value": raw_value,   # The exact source token, before parsing.
         "value": value,
         "unit": unit,
+        "matched_alias": matched_alias,       # The alias (or narrative regex) that fired -- distinguishes relabelings.
+        "extraction_method": extraction_method,  # "table" (label-matched line) or "narrative" (regex fallback).
     }
 
 
 def _find_labelled_value(lines, aliases):
-    """Return the first (line, token) hit for these aliases, trying the most specific first."""
+    """Return the first (line, token, alias) hit for these aliases, trying the most specific first."""
     for alias in aliases:
         for line in lines:
             token = extract_value_after_label(line, alias)
             if token:
-                return line, token
-    return None, None
+                return line, token, alias
+    return None, None, None
 
 
 def extract_metrics_from_text(text):
@@ -45,9 +47,9 @@ def extract_metrics_from_text(text):
 
     for canonical, aliases in METRIC_ALIASES.items():
         # Stop at the first hit -- we only want one value per metric per document.
-        found_line, found_token = _find_labelled_value(lines, aliases)
+        found_line, found_token, found_alias = _find_labelled_value(lines, aliases)
         if found_token:
-            metrics[canonical] = _metric_entry(found_line, found_token)
+            metrics[canonical] = _metric_entry(found_line, found_token, found_alias, "table")
 
     # Headcount is sometimes only mentioned in a sentence, not a table row.
     # Only fall back to narrative text if the table-based pass above found nothing.
@@ -55,7 +57,9 @@ def extract_metrics_from_text(text):
         for pattern in HEADCOUNT_NARRATIVE_PATTERNS:
             m = pattern.search(text)
             if m:
-                metrics["headcount"] = _metric_entry("(from narrative text, not a table row)", m.group(1))
+                metrics["headcount"] = _metric_entry(
+                    "(from narrative text, not a table row)", m.group(1), pattern.pattern, "narrative"
+                )
                 break
 
     return metrics

@@ -41,7 +41,9 @@ Reads every PDF in `data/`, prints a coverage summary and a preview table, and
 writes two files to `output/`:
 
 - `metrics_long.csv` — one row per (company, year, quarter, metric), including
-  the raw label/value text the number was extracted from, for auditability.
+  the raw label/value text the number was extracted from, which alias matched,
+  and whether it came from a table row or narrative-text fallback, for
+  auditability.
 - `metrics_wide.csv` — one row per (company, year, quarter), metrics as
   columns. This is the "review across companies" view.
 
