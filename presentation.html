@@ -420,7 +420,7 @@
       <h2>Five small modules, one job each.</h2>
       <figure class="diagram">
         <div class="diagram-frame">
-          <svg viewBox="0 0 1000 300" role="img" aria-label="Pipeline: data folder of PDFs is read by pdf_parser.py, which is fed a label alias table by config.py and a value parser by values.py, producing one record per company and period, written by csv_writer.py into two output CSVs.">
+          <svg viewBox="0 0 1000 300" role="img" aria-label="Pipeline: data folder of PDFs is read by pdf_parser.py, which is fed a label alias table by config.py and a value parser by values.py, producing one record per company, year, and quarter, written by csv_writer.py into two output CSVs.">
             <defs>
               <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
                 <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
@@ -452,7 +452,7 @@
 
             <rect x="610" y="127" width="180" height="50" rx="8" fill="none" stroke="currentColor" />
             <text x="700" y="147" text-anchor="middle" font-size="13">record</text>
-            <text x="700" y="163" text-anchor="middle" font-size="10.5" opacity="0.65">company + period + 8 metrics</text>
+            <text x="700" y="163" text-anchor="middle" font-size="10.5" opacity="0.65">company + year/quarter + metrics</text>
             <line x1="790" y1="152" x2="846" y2="152" stroke="currentColor" marker-end="url(#arrow)" />
 
             <rect x="850" y="80" width="130" height="50" rx="8" fill="none" stroke="currentColor" />
@@ -692,7 +692,7 @@
       <h2>Bronze, silver, gold.</h2>
       <figure class="diagram">
         <div class="diagram-frame">
-          <svg viewBox="0 0 1000 250" role="img" aria-label="A three-layer medallion data model. Bronze is the raw landing zone holding source PDFs untouched and append-only. Parsing and typing produces the Silver layer, one row per company, period, and metric, with the raw label kept for audit. Pivoting and resolving company identity produces the Gold layer, one row per company-period with metrics as columns, ready for dashboards.">
+          <svg viewBox="0 0 1000 250" role="img" aria-label="A three-layer medallion data model. Bronze is the raw landing zone holding source PDFs untouched and append-only. Parsing and typing produces the Silver layer, one row per company, year, quarter, and metric, with the raw label kept for audit. Pivoting and resolving company identity produces the Gold layer, one row per company, year, and quarter with metrics as columns, ready for dashboards.">
             <defs>
               <marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
                 <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
@@ -719,9 +719,9 @@
             <rect x="356" y="34" width="66" height="20" rx="10" class="silver-fill" />
             <text x="389" y="48" text-anchor="middle" font-size="10" letter-spacing="0.06em" class="silver-text">SILVER</text>
             <text x="356" y="80" font-size="15">Parsed &amp; conformed</text>
-            <text x="356" y="102" font-size="11" opacity="0.82">One row per company, period, and</text>
-            <text x="356" y="119" font-size="11" opacity="0.82">metric &mdash; typed value + unit, alias</text>
-            <text x="356" y="136" font-size="11" opacity="0.82">resolved, raw label kept for audit.</text>
+            <text x="356" y="102" font-size="11" opacity="0.82">One row per company, year/quarter,</text>
+            <text x="356" y="119" font-size="11" opacity="0.82">and metric &mdash; typed value + unit,</text>
+            <text x="356" y="136" font-size="11" opacity="0.82">alias resolved, raw label for audit.</text>
             <line x1="356" y1="158" x2="604" y2="158" stroke="currentColor" opacity="0.18" />
             <text x="356" y="177" font-size="9" letter-spacing="0.08em" opacity="0.55">BUILT TODAY AS</text>
             <text x="356" y="197" font-size="12.5" class="mono">metrics_long.csv</text>
@@ -734,9 +734,9 @@
             <rect x="676" y="34" width="66" height="20" rx="10" class="gold-fill" />
             <text x="709" y="48" text-anchor="middle" font-size="10" letter-spacing="0.06em" class="gold-text">GOLD</text>
             <text x="676" y="80" font-size="15">Business-ready</text>
-            <text x="676" y="102" font-size="11" opacity="0.82">One row per company-period,</text>
-            <text x="676" y="119" font-size="11" opacity="0.82">metrics as columns &mdash; company</text>
-            <text x="676" y="136" font-size="11" opacity="0.82">identity resolved. Ready for BI.</text>
+            <text x="676" y="102" font-size="11" opacity="0.82">One row per company, year, and</text>
+            <text x="676" y="119" font-size="11" opacity="0.82">quarter, metrics as columns &mdash;</text>
+            <text x="676" y="136" font-size="11" opacity="0.82">company identity resolved. For BI.</text>
             <line x1="676" y1="158" x2="924" y2="158" stroke="currentColor" opacity="0.18" />
             <text x="676" y="177" font-size="9" letter-spacing="0.08em" opacity="0.55">BUILT TODAY AS</text>
             <text x="676" y="197" font-size="12.5" class="mono">metrics_wide.csv</text>
@@ -754,7 +754,7 @@
       <h2>The gold layer, as a star schema.</h2>
       <figure class="diagram">
         <div class="diagram-frame">
-          <svg viewBox="0 0 870 320" role="img" aria-label="Entity-relationship diagram of the gold layer. A dim_company dimension table, keyed by company_key and tracking name aliases and effective dates as a slowly changing dimension, relates one-to-many to a fact_company_period_metrics fact table keyed by company_key and period, holding the eight extracted metrics as columns.">
+          <svg viewBox="0 0 870 340" role="img" aria-label="Entity-relationship diagram of the gold layer. A dim_company dimension table, keyed by company_key and tracking name aliases and effective dates as a slowly changing dimension, relates one-to-many to a fact_company_period_metrics fact table keyed by company_key, year, and quarter, holding the eight extracted metrics as columns.">
             <defs>
               <marker id="arrow4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
                 <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
@@ -783,9 +783,9 @@
             <text x="416" y="90" text-anchor="end" font-size="10" opacity="0.7">N</text>
 
             <!-- fact_company_period_metrics -->
-            <rect x="430" y="30" width="380" height="266" rx="8" class="gold-fill" />
+            <rect x="430" y="30" width="380" height="286" rx="8" class="gold-fill" />
             <text x="448" y="50" font-size="13" class="mono">fact_company_period_metrics</text>
-            <text x="448" y="66" font-size="9" opacity="0.6">fact &middot; one row per company-period</text>
+            <text x="448" y="66" font-size="9" opacity="0.6">fact &middot; one row per company, year, quarter</text>
             <line x1="430" y1="76" x2="810" y2="76" stroke="currentColor" opacity="0.25" />
             <rect x="430" y="106" width="380" height="20" fill="currentColor" opacity="0.035" />
             <rect x="430" y="146" width="380" height="20" fill="currentColor" opacity="0.035" />
@@ -794,19 +794,21 @@
             <rect x="430" y="266" width="380" height="20" fill="currentColor" opacity="0.035" />
             <text x="448" y="100" font-size="11.5" class="mono">company_key</text>
             <text x="792" y="100" text-anchor="end" font-size="9.5" letter-spacing="0.04em" class="accent-text">PK&middot;FK</text>
-            <text x="448" y="120" font-size="11.5" class="mono">period</text>
+            <text x="448" y="120" font-size="11.5" class="mono">year</text>
             <text x="792" y="120" text-anchor="end" font-size="9.5" letter-spacing="0.04em" class="accent-text">PK</text>
-            <text x="448" y="140" font-size="11.5" class="mono">revenue</text>
-            <text x="448" y="160" font-size="11.5" class="mono">arr</text>
-            <text x="448" y="180" font-size="11.5" class="mono">gross_margin</text>
-            <text x="448" y="200" font-size="11.5" class="mono">net_revenue_retention</text>
-            <text x="448" y="220" font-size="11.5" class="mono">logo_churn</text>
-            <text x="448" y="240" font-size="11.5" class="mono">headcount</text>
-            <text x="448" y="260" font-size="11.5" class="mono">cash_balance</text>
-            <text x="448" y="280" font-size="11.5" class="mono">net_burn</text>
+            <text x="448" y="140" font-size="11.5" class="mono">quarter</text>
+            <text x="792" y="140" text-anchor="end" font-size="9.5" letter-spacing="0.04em" class="accent-text">PK</text>
+            <text x="448" y="160" font-size="11.5" class="mono">revenue</text>
+            <text x="448" y="180" font-size="11.5" class="mono">arr</text>
+            <text x="448" y="200" font-size="11.5" class="mono">gross_margin</text>
+            <text x="448" y="220" font-size="11.5" class="mono">net_revenue_retention</text>
+            <text x="448" y="240" font-size="11.5" class="mono">logo_churn</text>
+            <text x="448" y="260" font-size="11.5" class="mono">headcount</text>
+            <text x="448" y="280" font-size="11.5" class="mono">cash_balance</text>
+            <text x="448" y="300" font-size="11.5" class="mono">net_burn</text>
           </svg>
         </div>
-        <figcaption>A minimal star schema for Gold: one fact row per company-period, joined to a slowly-changing company dimension so a rebrand (like FleetLink &rarr; ApexFreight, footnoted in the source PDFs) doesn't fork the time series.</figcaption>
+        <figcaption>A minimal star schema for Gold: one fact row per company, year, and quarter, joined to a slowly-changing company dimension so a rebrand (like FleetLink &rarr; ApexFreight, footnoted in the source PDFs) doesn't fork the time series.</figcaption>
       </figure>
     </div>
   </section>
